@@ -1,0 +1,12 @@
+.container{
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+}
+.container form{
+    width: 100%;
+}
