@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TableList from './TableList';
-import Login from './Login';
+import Login from './LogIn';
 import Register from './Register';
 import { Button } from '@chakra-ui/react';
 import "./../css/Page.css";
