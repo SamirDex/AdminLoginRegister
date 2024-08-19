@@ -60,7 +60,8 @@ function Page() {
         let arr = [...productDatas]; 
         arr = arr.filter(elem => elem.id !=id); 
         setProductDatas(arr); 
-        axios.delete(url + id);
+        axios.delete(url + "products/"+ id);
+        console.log(id);
     }
 
     return (
@@ -73,7 +74,7 @@ function Page() {
                 )
             ) : (
                 <div>
-                    <TableList productDatas={productDatas} type="product" isAdmin={isAdmin} onDelete={handleDelete}/>
+                    <TableList productDatas={productDatas} type="product" isAdmin={isAdmin} onDelete={handleDelete} url={url}/>
                 </div>
             )}
             <Button onClick={() => setShowRegister(!showRegister)} mt={4} colorScheme={"blue"}>

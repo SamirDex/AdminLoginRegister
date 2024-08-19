@@ -59,7 +59,7 @@ function Register({onRegister}) {
                 <FormLabel>
                     Parolu Testiqleyin
                 </FormLabel>
-                <Input type='password' value={confirme} onChange={(e) => {setConfirmedPassword(e.target.value)}}/>
+                <Input type='password' value={confirmedPassword} onChange={(e) => {setConfirmedPassword(e.target.value)}}/>
                 {!isError || (password == confirmedPassword) ? (
                 <FormHelperText>
                     Parolunuzu yeniden daxil edin 

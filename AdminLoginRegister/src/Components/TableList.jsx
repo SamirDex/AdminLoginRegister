@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import "./../css/TableList.css"
+import EditProductForm from './EditProductForm';
 import { Button } from '@chakra-ui/react'
+import { useState } from 'react';
+import axios from 'axios';
 import {
     Table,
     Thead,
@@ -16,7 +19,27 @@ import {
 
 
 
-function TableList( {productDatas , type, isAdmin, onDelete} ) {
+function TableList( {productDatas , type, isAdmin, onDelete, url} ) {
+    const [editingId, setEditingId] = useState(null);
+    const [editName, setEditName] = useState(''); 
+    const [editPrice, setEditPrice] = useState('');
+
+    const handleEditClick = (product) => {
+        setEditingId(product.id);
+        setEditName(product.name);
+        setEditPrice(product.price);
+    };
+
+    const handleSave = async (id) => {
+        const response = await axios.put(`${url}/products/${id}`, {
+            name: editName,
+            price: editPrice,
+        });
+        if (response.status == 200) {
+            setEditingId(null); 
+        }
+    };
+
     return (
         
         <div className='tableList'>
@@ -25,7 +48,7 @@ function TableList( {productDatas , type, isAdmin, onDelete} ) {
                     <TableCaption>{type == "product" ? "Product Data" : "User Data"}</TableCaption>
                     <Thead>
                         {type == "product" ? (
-                            <>
+                            <Tr>
                                 <Th>Id</Th>
                                 <Th>Name</Th>
                                 <Th isNumeric>Price</Th>
@@ -33,15 +56,15 @@ function TableList( {productDatas , type, isAdmin, onDelete} ) {
                                 <Th>Discount</Th>
                                 {isAdmin && <Th>Edit</Th>}
                                 {isAdmin && <Th>Delete</Th>}
-                            </>
+                            </Tr>
                         ) : (
-                            <>
+                            <Tr>
                                 <Th>Id</Th>
                                 <Th>Name</Th>
                                 <Th>Email</Th>
                                 {isAdmin && <Th>Edit</Th>}
                                 {isAdmin && <Th>Delete</Th>}
-                            </>
+                            </Tr>
                         )}
                                     
                     </Thead>
@@ -62,7 +85,18 @@ function TableList( {productDatas , type, isAdmin, onDelete} ) {
                             )}
                             {isAdmin && (
                             <>
-                                <Td><Button colorScheme='blue'>Edit</Button></Td>
+                                 <Td key={elem.id}>
+                                    <Button colorScheme="blue" onClick={() => handleEditClick(elem)}>Edit</Button>
+                                    {editingId === elem.id && (
+                                        <EditProductForm
+                                            editName={editName}
+                                            setEditName={setEditName}
+                                            editPrice={editPrice}
+                                            setEditPrice={setEditPrice}
+                                            handleSave={() => handleSave(elem.id)}
+                                        />
+                                    )}
+                                </Td>
                                 <Td><Button colorScheme='red' data-id={elem.id} onClick={() => {onDelete(elem.id)}}>Delete</Button></Td>
                             </>
                             )}
